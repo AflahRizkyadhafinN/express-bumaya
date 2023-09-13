@@ -16,6 +16,3 @@ const masyarakatDb = db.define(
 );
 
 export default masyarakatDb;
-(async () => {
-  await db.sync();
-})();
