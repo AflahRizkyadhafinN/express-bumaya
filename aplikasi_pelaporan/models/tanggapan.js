@@ -6,11 +6,27 @@ const { DataTypes } = Sequelize;
 const tanggapanDb = db.define(
   "tanggapan",
   {
-    id_tanggapan: { type: DataTypes.INTERGER(11), primaryKey: true },
-    id_pengaduan: DataTypes.INTERGER(11),
-    tgl_pengaduan: DataTypes.DATE,
+    id_tanggapan: {
+      type: DataTypes.INTEGER(11),
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    id_pengaduan: {
+      type: DataTypes.INTEGER(11),
+      references: {
+        model: "pengaduan",
+        key: "id_pengaduan",
+      },
+    },
+    tgl_tanggapan: DataTypes.DATE,
     tanggapan: DataTypes.TEXT,
-    id_petugas: DataTypes.INTERGER(11),
+    id_petugas: {
+      type: DataTypes.INTEGER(11),
+      references: {
+        model: "petugas",
+        key: "id_petugas",
+      },
+    },
   },
   { freezeTableName: true }
 );

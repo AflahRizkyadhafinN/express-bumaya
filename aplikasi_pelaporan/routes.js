@@ -21,6 +21,13 @@ import {
   updateMasyarakat,
 } from "./controllers/masyarakatController.js";
 import { login } from "./controllers/loginController.js";
+import {
+  deleteTanggapan,
+  getTanggapan,
+  getTanggapanById,
+  postTanggapan,
+  updateTanggapan,
+} from "./controllers/tanggapanController.js";
 
 const router = express.Router();
 
@@ -47,5 +54,12 @@ router.get("/pengaduan/:id", getPengaduanById);
 router.post("/pengaduan", postPengaduan);
 router.patch("/pengaduan/:id", updatePengaduan);
 router.delete("/pengaduan/:id", deletePengaduan);
+
+// Tanggapan
+router.get("/tanggapan", getTanggapan);
+router.get("/tanggapan/:id", getTanggapanById);
+router.post("/tanggapan", postTanggapan);
+router.patch("/tanggapan/:id", updateTanggapan);
+router.delete("/tanggapan/:id", deleteTanggapan);
 
 export default router;

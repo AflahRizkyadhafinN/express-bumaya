@@ -8,7 +8,10 @@ const pengaduanDb = db.define(
   {
     id_pengaduan: { type: DataTypes.INTEGER(11), primaryKey: true },
     tgl_pengaduan: DataTypes.DATE,
-    nik: DataTypes.CHAR(16),
+    nik: {
+      type: DataTypes.CHAR(16),
+      references: { model: "masyarakat", key: "nik" },
+    },
     isi_laporan: DataTypes.TEXT,
     foto: DataTypes.STRING,
     status: DataTypes.ENUM("0", "proses", "selesai"),
