@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config.js";
+import petugasDb from "./petugas.js";
 
 const { DataTypes } = Sequelize;
 
@@ -9,25 +10,13 @@ const tanggapanDb = db.define(
     id_tanggapan: {
       type: DataTypes.INTEGER(11),
       primaryKey: true,
-      autoIncrement: true,
     },
-    id_pengaduan: {
-      type: DataTypes.INTEGER(11),
-      references: {
-        model: "pengaduan",
-        key: "id_pengaduan",
-      },
-    },
+    id_pengaduan: DataTypes.INTEGER(11),
     tgl_tanggapan: DataTypes.DATE,
     tanggapan: DataTypes.TEXT,
-    id_petugas: {
-      type: DataTypes.INTEGER(11),
-      references: {
-        model: "petugas",
-        key: "id_petugas",
-      },
-    },
+    id_petugas: DataTypes.INTEGER(11),
   },
+
   { freezeTableName: true }
 );
 

@@ -1,10 +1,11 @@
 import pengaduanDb from "../models/pengaduan.js";
 import path from "path";
 import fs from "fs";
+import masyarakatDb from "../models/masyarakat.js";
 
 export const getPengaduan = async (req, res) => {
   try {
-    const response = await pengaduanDb.findAll();
+    const response = await pengaduanDb.findAll({ include: [masyarakatDb] });
     res.json(response);
   } catch (e) {
     console.log(e.message);
@@ -32,10 +33,10 @@ export const postPengaduan = async (req, res) => {
     const request = await pengaduanDb.create({
       id_pengaduan: req.body.id_pengaduan,
       tgl_pengaduan: req.body.tgl_pengaduan,
-      nik: req.body.nik,
       isi_laporan: req.body.isi_laporan,
       foto: url,
       status: req.body.status,
+      masyarakatNik: req.body.nik,
     });
     res.status(200).json(request);
   } catch (e) {
@@ -64,7 +65,7 @@ export const updatePengaduan = async (req, res) => {
         pengaduanDb.update(
           {
             tgl_pengaduan: req.body.tgl_pengaduan,
-            nik: req.body.nik,
+            masyarakatNik: req.body.nik,
             isi_laporan: req.body.isi_laporan,
             foto: url,
             status: req.body.status,

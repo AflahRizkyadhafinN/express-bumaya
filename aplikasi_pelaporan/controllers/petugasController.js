@@ -1,4 +1,5 @@
 import petugasDb from "../models/petugas.js";
+import crypto from "crypto";
 
 export const getPetugas = async (req, res) => {
   try {
