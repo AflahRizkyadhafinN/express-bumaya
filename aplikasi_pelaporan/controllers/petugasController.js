@@ -47,20 +47,11 @@ export const postPetugas = async (req, res) => {
 };
 
 export const updatePetugas = async (req, res) => {
-  function calculateSHA256Hash(data) {
-    const sha256Hash = crypto.createHash("sha256");
-    sha256Hash.update(data);
-    return sha256Hash.digest("hex");
-  }
-
-  const hash = calculateSHA256Hash(req.body.password);
-
   try {
     petugasDb.update(
       {
         nama: req.body.nama,
         username: req.body.username,
-        password: hash,
         telp: req.body.telp,
         level: req.body.level,
       },

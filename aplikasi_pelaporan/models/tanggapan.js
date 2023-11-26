@@ -1,6 +1,7 @@
-import { Sequelize } from "sequelize";
+import { BelongsTo, Sequelize } from "sequelize";
 import db from "../config.js";
 import petugasDb from "./petugas.js";
+import pengaduanDb from "./pengaduan.js";
 
 const { DataTypes } = Sequelize;
 
@@ -10,15 +11,17 @@ const tanggapanDb = db.define(
     id_tanggapan: {
       type: DataTypes.INTEGER(11),
       primaryKey: true,
+      autoIncrement: true,
     },
-    id_pengaduan: DataTypes.INTEGER(11),
-    tgl_tanggapan: DataTypes.DATE,
+    tgl_tanggapan: { type: DataTypes.DATE, defaultValue: Sequelize.fn("now") },
     tanggapan: DataTypes.TEXT,
-    id_petugas: DataTypes.INTEGER(11),
   },
 
   { freezeTableName: true }
 );
+
+tanggapanDb.belongsTo(pengaduanDb);
+tanggapanDb.belongsTo(petugasDb);
 
 export default tanggapanDb;
 (async () => {

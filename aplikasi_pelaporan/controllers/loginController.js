@@ -1,4 +1,5 @@
 import masyarakatDb from "../models/masyarakat.js";
+import petugasDb from "../models/petugas.js";
 import crypto from "crypto";
 
 export const login = async (req, res) => {
@@ -10,11 +11,19 @@ export const login = async (req, res) => {
 
   const hash = calculateSHA256Hash(req.body.password);
   console.log(hash);
+  let msg = "";
+  let response = {};
   try {
-    const response = await masyarakatDb.findOne({
+    response = await masyarakatDb.findOne({
       where: { username: req.body.username, password: hash },
     });
-    res.json({ response, msg: "Login berhasil" });
+    if (response != null) {
+      res.json({ response, msg: "Login masyarakat berhasil" });
+    } else {
+      res.json({
+        msg: `data dengan username ${req.body.username} tidak terdaftar`,
+      });
+    }
   } catch (e) {
     console.error(e.message);
   }

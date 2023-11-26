@@ -27,9 +27,7 @@ export const postMasyarakat = async (req, res) => {
     sha256Hash.update(data);
     return sha256Hash.digest("hex");
   }
-
   const hash = calculateSHA256Hash(req.body.password);
-
   console.log(req.body);
   try {
     await masyarakatDb.create({
@@ -46,37 +44,55 @@ export const postMasyarakat = async (req, res) => {
 };
 
 export const updateMasyarakat = async (req, res) => {
-  function calculateSHA256Hash(data) {
-    const sha256Hash = crypto.createHash("sha256");
-    sha256Hash.update(data);
-    return sha256Hash.digest("hex");
-  }
+  const checkData = await masyarakatDb.findOne({
+    where: { nik: req.params.nik },
+  });
+  if (checkData != null) {
+    // function calculateSHA256Hash(data) {
+    //   const sha256Hash = crypto.createHash("sha256");
+    //   sha256Hash.update(data);
+    //   return sha256Hash.digest("hex");
+    // }
 
-  const hash = calculateSHA256Hash(req.body.password);
+    // const hash = calculateSHA256Hash(req.body.password);
 
-  try {
-    masyarakatDb.update(
-      {
-        nama: req.body.nama,
-        username: req.body.username,
-        password: hash,
-        telp: req.body.telp,
-      },
-      { where: { nik: req.params.nik } }
-    );
-    res.status(200).json({ msg: `Data ${req.params.nik} berhasil diupdate` });
-  } catch (error) {
-    console.log(error.message);
+    try {
+      masyarakatDb.update(
+        {
+          nama: req.body.nama,
+          username: req.body.username,
+          // password: hash,
+          telp: req.body.telp,
+        },
+        { where: { nik: req.params.nik } }
+      );
+      res.status(200).json({ msg: `Data ${req.params.nik} berhasil diupdate` });
+    } catch (error) {
+      console.log(error.message);
+    }
+  } else {
+    res.json({
+      msg: `Data d
+    --02engan nik ${req.params.nik} tidak ditemukan`,
+    });
   }
 };
 
 export const deleteMasyarakat = async (req, res) => {
-  try {
-    await masyarakatDb.destroy({
-      where: { nik: req.params.nik },
-    });
-    res.status(200).json({ msg: "Data berhasil dihapus" });
-  } catch (error) {
-    console.log(error.message);
+  const checkData = await masyarakatDb.findOne({
+    where: { nik: req.params.nik },
+  });
+  console.log(!checkData);
+  if (!checkData) {
+    res.json({ msg: "Data dengan nik " + req.params.nik + " tidak ditemukan" });
+  } else {
+    try {
+      await masyarakatDb.destroy({
+        where: { nik: req.params.nik },
+      });
+      res.status(200).json({ msg: "Data berhasil dihapus" });
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 };

@@ -10,8 +10,12 @@ const pengaduanDb = db.define(
     id_pengaduan: {
       type: DataTypes.INTEGER(11),
       primaryKey: true,
+      autoIncrement: true,
     },
-    tgl_pengaduan: DataTypes.DATE,
+    tgl_pengaduan: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.fn("now"),
+    },
     isi_laporan: DataTypes.TEXT,
     foto: DataTypes.STRING,
     status: DataTypes.ENUM("0", "proses", "selesai"),
